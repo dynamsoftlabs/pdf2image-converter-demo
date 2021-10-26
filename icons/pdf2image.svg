@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160.295" height="64.203" viewBox="0 0 160.295 64.203">
+  <g id="Group_2223" data-name="Group 2223" transform="translate(-884 -265)">
+    <g id="Group_2222" data-name="Group 2222" transform="translate(983.404 266)">
+      <g id="Group_2214" data-name="Group 2214" transform="translate(0 0)">
+        <g id="Images-Photography_Image-Files_image-file-png-1" data-name="Images-Photography / Image-Files / image-file-png-1">
+          <g id="Group_206" data-name="Group 206">
+            <g id="image-file-png-1">
+              <path id="Shape_980" data-name="Shape 980" d="M570.751,2397.394v24.976a2.7,2.7,0,0,0,2.7,2.7h5.407" transform="translate(-570.751 -2362.892)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+              <path id="Shape_980-2" data-name="Shape 980" d="M622.118,2417.074v-16.289a16.155,16.155,0,0,0-16.153-16.153h-32.51a2.7,2.7,0,0,0-2.7,2.7v34.81" transform="translate(-570.751 -2384.632)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+              <path id="Shape_981" data-name="Shape 981" d="M584.751,2384.712v10.6a2.7,2.7,0,0,0,2.7,2.7h10.6" transform="translate(-546.901 -2384.496)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+              <path id="Shape_983" data-name="Shape 983" d="M587.565,2405.04a5.405,5.405,0,0,1-5.407,5.406h-5.407v-10.814h5.407A5.408,5.408,0,0,1,587.565,2405.04Z" transform="translate(-560.53 -2359.079)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+              <path id="Shape_984" data-name="Shape 984" d="M576.751,2414.447v-10.814" transform="translate(-560.53 -2352.265)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </g>
+          </g>
+        </g>
+        <path id="Shape_1053" data-name="Shape 1053" d="M588.749,2421.229v-17.521a4.133,4.133,0,0,1,4.212-4.045h7.021" transform="translate(-540.091 -2359.027)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Shape_1054" data-name="Shape 1054" d="M588.749,2403.8h6.759" transform="translate(-540.091 -2351.977)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Shape_1389" data-name="Shape 1389" d="M582.749,2399.631a10.814,10.814,0,0,1,0,21.628Z" transform="translate(-550.312 -2359.08)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+    <g id="Images-Photography_Image-Files_image-file-landscape" data-name="Images-Photography / Image-Files / image-file-landscape" transform="translate(885 266)">
+      <g id="Group_203" data-name="Group 203" transform="translate(0)">
+        <g id="image-file-landscape">
+          <path id="Oval_136" data-name="Oval 136" d="M340.483,2307.578a5.409,5.409,0,1,0-5.409-5.409A5.407,5.407,0,0,0,340.483,2307.578Z" transform="translate(-324.256 -2277.828)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          <path id="Shape_973" data-name="Shape 973" d="M356.856,2301.836a1.352,1.352,0,0,0-2.293,0l-7.137,11.418-2.907-4.657a1.352,1.352,0,0,0-2.293,0l-8.151,13.041h35.158Z" transform="translate(-325.961 -2270.261)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          <path id="Shape_974" data-name="Shape 974" d="M381.666,2300.578a2.7,2.7,0,0,1,.792,1.912v46.768a2.706,2.706,0,0,1-2.7,2.7H333.778a2.706,2.706,0,0,1-2.7-2.7v-56.794a2.706,2.706,0,0,1,2.7-2.7h35.95a2.709,2.709,0,0,1,1.912.792Z" transform="translate(-331.074 -2289.76)" fill="none" stroke="#606060" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+      </g>
+    </g>
+    <path id="Path_6695" data-name="Path 6695" d="M21.9,51.38,13.928,43.4l-1.157,1.164,5.989,6H0V52.2H18.76l-5.989,6,1.157,1.164L21.9,51.38Z" transform="translate(949 237.92)" fill="#606060"/>
+    <path id="Path_6696" data-name="Path 6696" d="M21.9,7.98,13.928,0,12.772,1.164l5.989,6H0V8.8H18.76l-5.989,6,1.157,1.164L21.9,7.98Z" transform="translate(970.902 312.973) rotate(180)" fill="#606060"/>
+  </g>
+</svg>

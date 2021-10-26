@@ -1,0 +1,413 @@
+<html>
+
+<head>
+</head>
+<script src="./js/jquery.js"></script>
+<link rel="stylesheet" href="./css/pdfConverter.css">
+<script src="./Resources/dynamsoft.webtwain.config.js"></script>
+<script src="./Resources/dynamsoft.webtwain.initiate.js"></script>
+<script src="./Resources/addon/dynamsoft.webtwain.addon.pdf.js"></script>
+
+<body>
+    <div id="pdfConverter" class="container">
+        <div>
+            <div class="mt60 browserFiles" id="browserFiles">
+                <div class="tc icon">
+                    <img src="./icons/pdf2image.svg" alt="pdf2image" />
+                </div>
+                <h1 class="tc">Image and PDF Converter</h1>
+                <p class="tc">A free, fast and secure online tool to convert any image to a custom-styled PDF file.</p>
+                <div class="tc">
+                    <button class="browserBtn" onclick="browser()">browse files</button>
+                </div>
+            </div>
+            <div class="mt60 dwtDesktop" id="dwtContainer">
+                <div class="actions">
+                    <div class="upload">
+                        <img src="./icons/upload.svg" alt="Upload" onclick="LoadImage()" />
+                        <p>Upload</p>
+                    </div>
+                    <div class="remove">
+                        <img src="./icons/remove.svg" alt="Remove" onclick="removeImages()" />
+                        <p>Remove</p>
+                    </div>
+                </div>
+                <div id="dwtcontrolContainer" class="imgContainer"></div>
+                <div class="options">
+                    <div class="formats">
+                        <p>Output Formats: </p>
+                        <ul>
+                            <li>
+                                <span class="circle"></span>
+                                <label>JPEG</label>
+                            </li>
+                            <li>
+                                <span class="circle"></span>
+                                <label>PNG</label>
+                            </li>
+                            <li>
+                                <span class="circle"></span>
+                                <label>BMP</label>
+                            </li>
+                            <li>
+                                <span class="circle"></span>
+                                <label>TIFF</label>
+                            </li>
+                            <li class="checked">
+                                <span class="circle"></span>
+                                <label>PDF</label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="pdfSetting mt20">
+                        <div>
+                            <p>Compression Type:</p>
+                            <select id="ct">
+                                <option value="0">Auto</option>
+                                <option value="2">FAX4</option>
+                                <option value="3">LZW</option>
+                                <option value="5">JPEG</option>
+                                <option value="6">JPEG2000</option>
+                                <option value="7">JBig2</option>
+                            </select>
+                        </div>
+                        <div>
+                            <p>Author:</p>
+                            <input type="text" name="author" id="author" />
+                        </div>
+                        <div>
+                            <p>Page Type:</p>
+                            <select id="pt">
+                                <option value="0">Default</option>
+                                <option value="1">Custom</option>
+                                <option value="2">A4</option>
+                                <option value="3">A4_Reverse</option>
+                                <option value="4">A3</option>
+                                <option value="5">A3_Reverse</option>
+                                <option value="6">Letter</option>
+                                <option value="7">Letter_Reverse</option>
+                                <option value="8">Legal</option>
+                                <option value="9">Legal_Reverse</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="noSetting mt20"></div>
+                    <div class="jpegSetting mt20">
+                        <div>
+                            <p>JPEG Quality:</p>
+                            <input type="range" min="0" max="100" class="jpegQuality" value="80" />
+                            <p class="qualityNum"></p>
+                        </div>
+                    </div>
+                    <div class="tiffSetting mt20">
+                        <div>
+                            <p>Compression Type:</p>
+                            <select>
+                                <option value="0">Auto</option>
+                                <option value="1">None</option>
+                                <option value="2">RLE</option>
+                                <option value="3">FAX3</option>
+                                <option value="3">T4</option>
+                                <option value="4">FAX4</option>
+                                <option value="4">T6</option>
+                                <option value="5">LZW</option>
+                                <option value="6">JPEG</option>
+                                <option value="32773">PACKBITS</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="convertBtn" onclick="convert()">CONVERT AND
+                        SAVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var console = window['console'] ? window['console'] : {
+        'log': function () {}
+    };
+    Dynamsoft.DWT.RegisterEvent('OnWebTwainReady',
+        Dynamsoft_OnReady
+    ); // Register OnWebTwainReady event. This event fires as soon as Dynamic Web TWAIN is initialized and ready to be used
+    var DWObject;
+
+    function Dynamsoft_OnReady() {
+        DWObject = Dynamsoft.DWT.GetWebTwain(
+            'dwtcontrolContainer'
+        ); // Get the Dynamic Web TWAIN object that is embeded in the div with id 'dwtcontrolContainer'
+        if (DWObject) {
+            DWObject.RegisterEvent('OnPostAllTransfers', function () {
+                setTimeout(SaveWithFileDialog, 20);
+            });
+        }
+    }
+
+    var imageType = "pdf";
+    var compressionType = 0;
+    var pageType = 0;
+    var author = "";
+    var tiffCompressionType = 0;
+
+    $(document).ready(function () {
+        toggleClass();
+        $(".qualityNum").text(80);
+    })
+
+    $(window).resize(function () {
+        toggleClass();
+    })
+
+    function browser() {
+        // hide browser files
+        $(".browserFiles").hide();
+        $("#dwtContainer").show();
+        toggleClass();
+        LoadImage();
+    }
+
+    function convert() {
+        console.log({
+            imageType: imageType,
+            compressionType: compressionType,
+            pageType: pageType,
+            author: author,
+            jpegQuality: DWObject.JPEGQuality,
+            tiffCompressionType: tiffCompressionType
+        })
+
+        if (DWObject) {
+            if (DWObject.HowManyImagesInBuffer > 0) {
+                DWObject.IfShowFileDialog = true;
+                if (imageType === "jpeg") {
+                    //If the current image is B&W
+                    //1 is B&W, 8 is Gray, 24 is RGB
+                    if (DWObject.GetImageBitDepth(DWObject.CurrentImageIndexInBuffer) == 1)
+                        //If so, convert the image to Gray
+                        DWObject.ConvertToGrayScale(DWObject.CurrentImageIndexInBuffer);
+                    //Save image in JPEG
+                    DWObject.SaveAsJPEG("DynamicWebTWAIN.jpg", DWObject.CurrentImageIndexInBuffer, OnSuccess,
+                        OnFailure);
+                } else if (imageType === "png") {
+                    DWObject.SaveAsPNG("DynamicWebTWAIN.png", DWObject.CurrentImageIndexInBuffer, OnSuccess, OnFailure);
+                } else if (imageType === "bmp") {
+                    DWObject.SaveAsBMP("DynamicWebTWAIN.bmp", DWObject.CurrentImageIndexInBuffer, OnSuccess, OnFailure);
+                } else if (imageType === "tiff") {
+                    DWObject.TIFFCompressionType = tiffCompressionType;
+                    DWObject.SaveAllAsMultiPageTIFF("DynamicWebTWAIN.tiff", OnSuccess, OnFailure);
+                } else if (imageType === "pdf") {
+                    DWObject.Addon.PDF.Write.Setup({
+                        author: author,
+                        compression: compressionType,
+                        pageType: pageType,
+                        creator: "DWT",
+                        creationDate: "",
+                        keyWords: "",
+                        modifiedDate: "",
+                        producer: "Dynamsoft Corporation",
+                        subject: "",
+                        title: "",
+                        version: 1.5,
+                        quality: DWObject.JPEGQuality
+                    });
+                    DWObject.SaveAsPDF("DynamicWebTWAIN.pdf", DWObject.CurrentImageIndexInBuffer, OnSuccess, OnFailure);
+                }
+            }
+        }
+    }
+
+
+
+    // select output formats
+    $(".formats ul").on("click", "li", function (e) {
+        // remove styles
+        $(".formats ul li").each(function (e) {
+            $(this).removeClass("checked");
+        })
+
+
+        // add style
+        $(this).addClass("checked");
+
+        imageType = $(this)[0].innerText.toLowerCase().trim();
+
+
+        if (imageType === "pdf") {
+            enablePdfSetting();
+        }
+
+        if (imageType === "jpeg") {
+            enableJpegSetting();
+        }
+
+        if (imageType === "bmp" || imageType === "png") {
+            enableNoSetting();
+        }
+
+        if (imageType === "tiff") {
+            enableTiffSetting();
+        }
+    })
+
+    // select pdf settings
+    $(".pdfSetting #ct").change(function (e) {
+        compressionType = parseInt($(".pdfSetting #ct option:selected").val());
+    })
+
+    $(".pdfSetting #pt").change(function (e) {
+        pageType = parseInt($(".pdfSetting #pt option:selected").val());
+    })
+
+    $(".pdfSetting #author").change(function (e) {
+        author = $(this).val();
+    })
+
+    // select tiff setting
+    $(".tiffSetting select").change(function (e) {
+        console.log($(".tiffSetting option:selected").val());
+        tiffCompressionType = parseInt($(".tiffSetting option:selected").val());
+    })
+
+
+    // change jpeg quality
+    $(".jpegQuality").on("input", function () {
+        $(".qualityNum").text($(this).val());
+    })
+
+    $(".jpegQuality").on("change", function () {
+        if (DWObject) {
+            DWObject.JPEGQuality = $(this).val();
+        }
+    })
+
+
+    function enablePdfSetting() {
+        $(".pdfSetting").show().css({
+            "display": "flex"
+        })
+
+        $(".jpegSetting").hide();
+        $(".noSetting").hide();
+        $(".tiffSetting").hide();
+    }
+
+    function enableJpegSetting() {
+        $(".jpegSetting").show();
+
+        if (window.innerWidth < 992) {
+            $(".jpegSetting").css({
+                "display": "flex"
+            });
+        }
+
+        $(".pdfSetting").hide();
+        $(".noSetting").hide();
+        $(".tiffSetting").hide();
+    }
+
+    function enableNoSetting() {
+        $(".jpegSetting").hide();
+        $(".pdfSetting").hide();
+        $(".tiffSetting").hide();
+
+        $(".noSetting").show();
+    }
+
+    function enableTiffSetting() {
+        $(".jpegSetting").hide();
+        $(".pdfSetting").hide();
+        $(".noSetting").hide();
+
+        $(".tiffSetting").show().css({
+            "display": "flex"
+        })
+    }
+
+
+    function toggleClass() {
+        var width = window.innerWidth;
+
+        if ($("#dwtContainer").css("display") !== "none") {
+            if (width >= 992) {
+                $("#dwtContainer").removeClass("dwtm");
+                $("#dwtContainer").addClass("dwtDesktop").css({
+                    "display": "flex"
+                });
+                if (imageType === "jpeg") {
+                    $(".jpegSetting").css({
+                        "display": "block"
+                    })
+                }
+            } else {
+                $("#dwtContainer").removeClass("dwtDesktop");
+                $("#dwtContainer").addClass("dwtm").css({
+                    "display": "block"
+                });
+                $(".dvs-WebViewer").css({
+                    "width": "100%"
+                })
+                if (imageType === "jpeg") {
+                    $(".jpegSetting").css({
+                        "display": "flex"
+                    })
+                }
+            }
+        }
+    }
+
+    // drag file to the container
+    document.addEventListener('drop', function (e) {
+        e.preventDefault()
+    }, false)
+
+    document.addEventListener('dragover', function (e) {
+        e.preventDefault()
+    }, false)
+
+
+    var bf = document.getElementById("browserFiles");
+    bf.addEventListener("drop", function (e) {
+
+        $(".browserFiles").hide();
+        $("#dwtContainer").show();
+        toggleClass();
+        // get file list
+        var files = e.dataTransfer.files;
+        for (const e in files) {
+            if (files.hasOwnProperty(e)) {
+                let fr = new FileReader();
+                fr.readAsDataURL(files[e]);
+                fr.onload = function () {
+                    DWObject.LoadImageFromBase64Binary(fr.result, Dynamsoft.DWT.EnumDWT_ImageType.IT_ALL,
+                        OnSuccess, OnFailure);
+                }
+            }
+        }
+    });
+
+    //Callback functions for async APIs
+    function OnSuccess() {
+        console.log('successful');
+    }
+
+    function OnFailure(errorCode, errorString) {
+        if (errorCode != -2326) {
+            alert(errorString);
+        }
+    }
+
+    function LoadImage() {
+        if (DWObject) {
+            DWObject.IfShowFileDialog = true; // Open the system's file dialog to load image
+            DWObject.LoadImageEx("", Dynamsoft.DWT.EnumDWT_ImageType.IT_ALL, OnSuccess,
+                OnFailure
+            ); // Load images in all supported formats (.bmp, .jpg, .tif, .png, .pdf). OnSuccess or OnFailure will be called after the operation
+        }
+    }
+
+    function removeImages() {
+        DWObject.RemoveAllSelectedImages();
+    }
+</script>
+
+</html>
