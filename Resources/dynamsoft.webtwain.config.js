@@ -25,7 +25,7 @@ Dynamsoft.DWT.Containers = [{ContainerId:'dwtcontrolContainer', Width:'100%', He
 /////////////////////////////////////////////////////////////////////////////////////
 /// If you need to use multiple keys on the same server, you can combine keys and write like this 
 /// Dynamsoft.DWT.ProductKey = 'key1;key2;key3';
-Dynamsoft.DWT.ProductKey = 't00996QAAALTV0eG5vnUIa6HE+dGAeCm6iVm1vnbPkZvd0PDbT9MBOopuTB+HTsY4P8f7VLj+RlVkEkHDFYBvkEkahJNAZIDqt2ILg1tzeY1idq6muanTWHKTlWaiZmlVygPDYS+m';
+Dynamsoft.DWT.ProductKey = 'your own product key';
 
 ///
 //Dynamsoft.DWT.ResourcesPath = 'Resources';
