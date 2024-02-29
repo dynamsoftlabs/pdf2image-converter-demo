@@ -1,8 +1,7 @@
-######
-how to run this demo
+## how to run this demo
 
-1. Go to ./Resources/dynamsoft.webtwain.config.js
+#### 1. Navigate to [Dynamsoft Customer Portal](https://www.dynamsoft.com/customer/license/trialLicense?product=ddv) and apply for DDV trial license, copy trial license key.
 
-2. Change Dynamsoft.DWT.ProductKey value to your own product key. If you don't have one, you can apply trial license here https://www.dynamsoft.com/customer/license/trialLicense?product=dwt&utm_source=in-product
+#### 2. Go to ddv-demo.js and replace "trial license key" with your own key.
 
-3. Open index.html in your browser
+#### 3. Open index.html in your browser
